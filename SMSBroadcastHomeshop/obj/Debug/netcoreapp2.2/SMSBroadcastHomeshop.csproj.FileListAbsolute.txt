@@ -16,7 +16,6 @@ D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHome
 D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.runtimeconfig.dev.json
 D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.dll
 D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.pdb
-D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.csprojAssemblyReference.cache
 D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.csproj.CoreCompileInputs.cache
 D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.AssemblyInfoInputs.cache
 D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.AssemblyInfo.cs

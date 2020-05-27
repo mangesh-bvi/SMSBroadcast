@@ -94,7 +94,7 @@ namespace SMSBroadcastHomeshop
             var SenderId = string.Empty;
             int ClientID = 0;
             string apiResponse = string.Empty;
-
+            MySqlConnection con = null;
             try
             {
                 DataTable dt = new DataTable();
@@ -102,14 +102,18 @@ namespace SMSBroadcastHomeshop
                 IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
                 var constr = config.GetSection("ConnectionStrings").GetSection("HomeShop").Value;
                 string ClientAPIURL = config.GetSection("ConnectionStrings").GetSection("ClientAPIURL").Value;
-                MySqlConnection con = new MySqlConnection(constr);
-                MySqlCommand cmd = new MySqlCommand("SP_HSGetDetailforSMSBroadcast", con);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                con = new MySqlConnection(constr);
+                MySqlCommand cmd = new MySqlCommand("SP_HSGetDetailforSMSBroadcast", con)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                };
                 cmd.Connection.Open();
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);
                 cmd.Connection.Close();
-               
+
+                ChatSendSMSResponse chatSendSMSResponse = new ChatSendSMSResponse();
+
                 if (dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
@@ -135,42 +139,47 @@ namespace SMSBroadcastHomeshop
                                 SmsText = MessageText
                             };
 
-                            string apiReq = JsonConvert.SerializeObject(chatSendSMS);
-                            apiResponse = CommonService.SendApiRequest(ClientAPIURL + "api/ChatbotBell/SendSMS", apiReq);
-
-                            ChatSendSMSResponse chatSendSMSResponse = new ChatSendSMSResponse();
-
-                            chatSendSMSResponse = JsonConvert.DeserializeObject<ChatSendSMSResponse>(apiResponse);
-
-                            if (chatSendSMSResponse.ErrorCODE == null & chatSendSMSResponse.ErrorSEQ == null)
+                            try
                             {
-                                string Responcetext = "Success";
-                                UpdateResponse(ID, chatSendSMSResponse.SubmitDate, Responcetext,1);
+                                string apiReq = JsonConvert.SerializeObject(chatSendSMS);
+                                apiResponse = CommonService.SendApiRequest(ClientAPIURL + "api/ChatbotBell/SendSMS", apiReq);
 
+                                chatSendSMSResponse = JsonConvert.DeserializeObject<ChatSendSMSResponse>(apiResponse);
+
+                                if (chatSendSMSResponse.ErrorCODE == null & chatSendSMSResponse.ErrorSEQ == null)
+                                {
+                                    string Responcetext = "Success";
+                                    UpdateResponse(ID, chatSendSMSResponse.SubmitDate, Responcetext, 1);
+
+                                }
+                                else
+                                {
+                                    string Responcetext = "Fail";
+                                    UpdateResponse(ID, chatSendSMSResponse.SubmitDate, Responcetext, 2);
+
+                                }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                                string Responcetext = "Fail";
-                                UpdateResponse(ID, chatSendSMSResponse.SubmitDate, Responcetext,2);
-
+                                string Responcetext = ex.ToString();
+                                UpdateResponse(ID, DateTime.Now.ToString(), Responcetext, 2);
                             }
-
 
                         }
 
                     }
-
                 }
-                
-
             }
             catch
             {
                 
-                
             }
             finally
             {
+                if (con != null)
+                {
+                    con.Close();
+                }
                 GC.Collect();
             }
         }
@@ -183,15 +192,17 @@ namespace SMSBroadcastHomeshop
                 IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
                 var constr = config.GetSection("ConnectionStrings").GetSection("HomeShop").Value;
                 MySqlConnection con = new MySqlConnection(constr);
-                MySqlCommand cmd1 = new MySqlCommand("SP_HSUpdateSMSBroadcastResponce", con);
-                cmd1.Parameters.AddWithValue("@_iD", ID);
-                cmd1.Parameters.AddWithValue("@_date", Date);
-                cmd1.Parameters.AddWithValue("@_responcetext", Responcetext);
-                cmd1.Parameters.AddWithValue("@_isSend", IsSend);
-                cmd1.Connection.Open();
-                cmd1.CommandType = CommandType.StoredProcedure;
-                cmd1.ExecuteNonQuery();
-                cmd1.Connection.Close();
+                MySqlCommand cmd = new MySqlCommand("SP_HSUpdateBroadcastResponce", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@_iD", ID);
+                cmd.Parameters.AddWithValue("@_date", Date);
+                cmd.Parameters.AddWithValue("@_responcetext", Responcetext);
+                cmd.Parameters.AddWithValue("@_isSend", IsSend);
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
             }
             catch 
             {
