@@ -1,0 +1,24 @@
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.deps.json
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.runtimeconfig.json
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.runtimeconfig.dev.json
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.dll
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.csprojAssemblyReference.cache
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.csproj.CoreCompileInputs.cache
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.AssemblyInfoInputs.cache
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.AssemblyInfo.cs
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\sms_brodcastHomeshop.json
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.pdb
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.dll
+D:\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.pdb
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\appsettings.json
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.deps.json
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.runtimeconfig.json
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.runtimeconfig.dev.json
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.dll
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\bin\Debug\netcoreapp2.2\SMSBroadcastHomeshop.pdb
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.csprojAssemblyReference.cache
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.csproj.CoreCompileInputs.cache
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.AssemblyInfoInputs.cache
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.AssemblyInfo.cs
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.dll
+D:\Devesh\Devesh\Ticketing\DotNetCore Console\Home shop Console\SMSBroadcastHomeshop\SMSBroadcastHomeshop\SMSBroadcastHomeshop\obj\Debug\netcoreapp2.2\SMSBroadcastHomeshop.pdb
