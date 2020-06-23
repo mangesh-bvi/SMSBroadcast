@@ -191,9 +191,9 @@ namespace SMSBroadcastHomeshop
 
 
             }
-            catch (Exception ex)
+            catch 
             {
-                throw ex;
+               
             }
             finally
             {
