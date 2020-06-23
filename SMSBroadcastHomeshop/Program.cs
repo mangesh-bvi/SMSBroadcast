@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SMSBroadcastHomeshop.Model;
 using SMSBroadcastHomeshop.Service;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 
@@ -15,6 +16,7 @@ namespace SMSBroadcastHomeshop
 
         static void Main(string[] args)
         {
+
             IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
             delaytime = Convert.ToInt32(config.GetSection("MySettings").GetSection("IntervalInMinutes").Value);
             Thread _Individualprocessthread = new Thread(new ThreadStart(InvokeMethod));
@@ -84,6 +86,13 @@ namespace SMSBroadcastHomeshop
 
         public static void GetdataFromMySQL()
         {
+            List<SMSEntity> lstSMSEntity = null;
+            List<SMSSendResponse> lstSMSSendResponse = null;
+            string SMSRequest = string.Empty;
+            string SMSResponse = string.Empty;
+            string UserName = string.Empty;
+            string Password = string.Empty;
+            string SMSURL = string.Empty;
             int ID = 0;
             var Programcode = string.Empty;
             var StoreCode = string.Empty;
@@ -98,7 +107,7 @@ namespace SMSBroadcastHomeshop
             try
             {
                 DataTable dt = new DataTable();
-               
+
                 IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
                 var constr = config.GetSection("ConnectionStrings").GetSection("HomeShop").Value;
                 string ClientAPIURL = config.GetSection("ConnectionStrings").GetSection("ClientAPIURL").Value;
@@ -112,8 +121,8 @@ namespace SMSBroadcastHomeshop
                 da.Fill(dt);
                 cmd.Connection.Close();
 
-                ChatSendSMSResponse chatSendSMSResponse = new ChatSendSMSResponse();
 
+                lstSMSEntity = new List<SMSEntity>();
                 if (dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
@@ -128,51 +137,63 @@ namespace SMSBroadcastHomeshop
                         MessageText = Convert.ToString(dr["MessageText"]);
                         SenderId = Convert.ToString(dr["SenderId"]);
                         ClientID = Convert.ToInt32(dr["ClientID"]);
-
-
                         if (!String.IsNullOrEmpty(MessageText))
                         {
-                            ChatSendSMS chatSendSMS = new ChatSendSMS
+
+                            SMSEntity objSMSEntity = new SMSEntity()
                             {
-                                MobileNumber = MobileNumber.Length > 10 ? MobileNumber : "91" + MobileNumber.TrimStart('0'),
-                                SenderId = SenderId,
-                                SmsText = MessageText
+                                SMSText = MessageText,
+                                SMSID = ID.ToString(),
+                                SMSSenderID = SenderId,
+                                MobileNumber = MobileNumber,
+                                SMSSEQ = ID.ToString()
                             };
+                            lstSMSEntity.Add(objSMSEntity);
+                        }
 
-                            try
+
+                    }
+                    SMSRequest = SMSCore.PrepareBulkSMSXML(lstSMSEntity);
+                    SMSSendResponse chatSendSMSResponse = new SMSSendResponse();
+                    if (!string.IsNullOrEmpty(SMSRequest))
+                    {
+                        UserName = config.GetSection("MySettings").GetSection("SMSAPIUserName").Value;
+                        Password = config.GetSection("MySettings").GetSection("SMSAPIPassword").Value;
+                        SMSURL = config.GetSection("MySettings").GetSection("SMSAPIURL").Value;
+                        SMSResponse = SMSCore.ProcessBulkSMSXML(SMSRequest, UserName, Password, SMSURL);
+                        if (!string.IsNullOrEmpty(SMSResponse))
+                        {
+                            lstSMSSendResponse = new List<SMSSendResponse>();
+                            lstSMSSendResponse = SMSCore.ParseSendBulkSMSResponse(SMSResponse);
+
+                            for (int j = 0; j < lstSMSSendResponse.Count; j++)
                             {
-                                string apiReq = JsonConvert.SerializeObject(chatSendSMS);
-                                apiResponse = CommonService.SendApiRequest(ClientAPIURL + "api/ChatbotBell/SendSMS", apiReq);
 
-                                chatSendSMSResponse = JsonConvert.DeserializeObject<ChatSendSMSResponse>(apiResponse);
-
-                                if (chatSendSMSResponse.ErrorCODE == null & chatSendSMSResponse.ErrorSEQ == null)
+                                if (lstSMSSendResponse[j].ErrorCODE == null & lstSMSSendResponse[j].ErrorSEQ == null)
                                 {
                                     string Responcetext = "Success";
-                                    UpdateResponse(ID, chatSendSMSResponse.SubmitDate, Responcetext, 1);
+                                    UpdateResponse(Convert.ToInt32(lstSMSSendResponse[j].ID), lstSMSSendResponse[j].SubmitDate, Responcetext, 1);
 
                                 }
                                 else
                                 {
                                     string Responcetext = "Fail";
-                                    UpdateResponse(ID, chatSendSMSResponse.SubmitDate, Responcetext, 2);
+                                    UpdateResponse(Convert.ToInt32(lstSMSSendResponse[j].ID), lstSMSSendResponse[j].SubmitDate, Responcetext, 2);
 
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                string Responcetext = ex.ToString();
-                                UpdateResponse(ID, DateTime.Now.ToString(), Responcetext, 2);
+
                             }
 
                         }
-
                     }
+
                 }
+
+
             }
-            catch
+            catch (Exception ex)
             {
-                
+                throw ex;
             }
             finally
             {
@@ -183,9 +204,9 @@ namespace SMSBroadcastHomeshop
                 GC.Collect();
             }
         }
-        public static void UpdateResponse(int ID,string Date,string Responcetext,int IsSend)
+        public static void UpdateResponse(int ID, string Date, string Responcetext, int IsSend)
         {
-            
+
             try
             {
                 DataTable dt = new DataTable();
@@ -204,15 +225,15 @@ namespace SMSBroadcastHomeshop
                 cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
             }
-            catch 
+            catch
             {
-               
+
             }
             finally
             {
                 GC.Collect();
             }
-            
+
         }
 
     }
