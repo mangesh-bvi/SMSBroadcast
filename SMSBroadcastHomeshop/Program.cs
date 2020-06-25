@@ -27,63 +27,11 @@ namespace SMSBroadcastHomeshop
         {
             while (true)
             {
-
-                //GetConnectionStrings();
                 GetdataFromMySQL();
                 Thread.Sleep(delaytime);
             }
         }
-        //public static void GetConnectionStrings()
-        //{
-        //    string ServerName = string.Empty;
-        //    string ServerCredentailsUsername = string.Empty;
-        //    string ServerCredentailsPassword = string.Empty;
-        //    string DBConnection = string.Empty;
-
-
-        //    try
-        //    {
-        //        DataTable dt = new DataTable();
-        //        IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
-        //        var constr = config.GetSection("ConnectionStrings").GetSection("HomeShop").Value;
-        //        MySqlConnection con = new MySqlConnection(constr);
-        //        MySqlCommand cmd = new MySqlCommand("SP_HSGetAllConnectionstrings", con);
-        //        cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //        cmd.Connection.Open();
-        //        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-        //        da.Fill(dt);
-        //        cmd.Connection.Close();
-
-        //        if (dt.Rows.Count > 0)
-        //        {
-        //            for (int i = 0; i < dt.Rows.Count; i++)
-        //            {
-        //                DataRow dr = dt.Rows[i];
-        //                ServerName = Convert.ToString(dr["ServerName"]);
-        //                ServerCredentailsUsername = Convert.ToString(dr["ServerCredentailsUsername"]);
-        //                ServerCredentailsPassword = Convert.ToString(dr["ServerCredentailsPassword"]);
-        //                DBConnection = Convert.ToString(dr["DBConnection"]);
-
-        //                string ConString = "Data Source = " + ServerName + " ; port = " + 3306 + "; Initial Catalog = " + DBConnection + " ; User Id = " + ServerCredentailsUsername + "; password = " + ServerCredentailsPassword + "";
-        //                GetdataFromMySQL(ConString);
-        //            }
-        //        }
-        //    }
-        //    catch 
-        //    {
-
-
-        //    }
-        //    finally
-        //    {
-
-        //        GC.Collect();
-        //    }
-
-
-        //}
-
-
+       
         public static void GetdataFromMySQL()
         {
             List<SMSEntity> lstSMSEntity = null;
@@ -120,8 +68,6 @@ namespace SMSBroadcastHomeshop
                 MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                 da.Fill(dt);
                 cmd.Connection.Close();
-
-
                 lstSMSEntity = new List<SMSEntity>();
                 if (dt.Rows.Count > 0)
                 {
@@ -206,13 +152,13 @@ namespace SMSBroadcastHomeshop
         }
         public static void UpdateResponse(int ID, string Date, string Responcetext, int IsSend)
         {
-
+            MySqlConnection con = null;
             try
             {
                 DataTable dt = new DataTable();
                 IConfiguration config = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, true).Build();
                 var constr = config.GetSection("ConnectionStrings").GetSection("HomeShop").Value;
-                MySqlConnection con = new MySqlConnection(constr);
+                con = new MySqlConnection(constr);
                 MySqlCommand cmd = new MySqlCommand("SP_HSUpdateBroadcastResponce", con)
                 {
                     CommandType = CommandType.StoredProcedure
@@ -231,6 +177,10 @@ namespace SMSBroadcastHomeshop
             }
             finally
             {
+                if (con != null)
+                {
+                    con.Close();
+                }
                 GC.Collect();
             }
 
