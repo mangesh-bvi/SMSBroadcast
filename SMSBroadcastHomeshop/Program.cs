@@ -5,7 +5,9 @@ using SMSBroadcastHomeshop.Model;
 using SMSBroadcastHomeshop.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
+using System.Linq;
 using System.Threading;
 
 namespace SMSBroadcastHomeshop
@@ -52,6 +54,7 @@ namespace SMSBroadcastHomeshop
             int ClientID = 0;
             string apiResponse = string.Empty;
             MySqlConnection con = null;
+            List<ListofSMSDetails> objListofSMSDetails = new List<ListofSMSDetails>();
             try
             {
                 DataTable dt = new DataTable();
@@ -96,9 +99,18 @@ namespace SMSBroadcastHomeshop
                             };
                             lstSMSEntity.Add(objSMSEntity);
                         }
-
-
+                        if (!String.IsNullOrEmpty(MessageText))
+                        {
+                            ListofSMSDetails listofSMSDetails = new ListofSMSDetails()
+                            {
+                                ID = ID.ToString(),
+                                Programcode = Programcode,
+                                MobileNumber = MobileNumber
+                            };
+                            objListofSMSDetails.Add(listofSMSDetails);
+                        }
                     }
+
                     SMSRequest = SMSCore.PrepareBulkSMSXML(lstSMSEntity);
                     SMSSendResponse chatSendSMSResponse = new SMSSendResponse();
                     if (!string.IsNullOrEmpty(SMSRequest))
@@ -120,6 +132,16 @@ namespace SMSBroadcastHomeshop
                                     string Responcetext = "Success";
                                     UpdateResponse(Convert.ToInt32(lstSMSSendResponse[j].ID), lstSMSSendResponse[j].SubmitDate, Responcetext, 1);
 
+                                    try
+                                    {
+                                        ListofSMSDetails objSMSDetails = new ListofSMSDetails();
+                                        objSMSDetails = objListofSMSDetails.Where(x => x.ID == lstSMSSendResponse[j].ID).FirstOrDefault();
+                                        MakeBellActive(objSMSDetails.MobileNumber, objSMSDetails.Programcode, ClientAPIURL);
+                                    }
+                                    catch (Exception)
+                                    {
+                                    }
+                                   
                                 }
                                 else
                                 {
@@ -184,6 +206,31 @@ namespace SMSBroadcastHomeshop
                 GC.Collect();
             }
 
+        }
+
+        /// <summary>
+        /// MakeBellActive
+        /// </summary>
+        /// <param name="Mobilenumber"></param>
+        /// <param name="ProgramCode"></param>
+        /// <param name="ClientAPIURL"></param>
+        /// <param name="TenantID"></param>
+        /// <param name="UserID"></param>
+        public static void MakeBellActive(string Mobilenumber, string ProgramCode, string ClientAPIURL)
+        {
+            try
+            {
+                NameValueCollection Params = new NameValueCollection
+                {
+                    { "Mobilenumber", Mobilenumber },
+                    { "ProgramCode", ProgramCode }
+                };
+                string apiResponsechatbotBellMakeBellActive = CommonService.SendParamsApiRequest(ClientAPIURL + "api/ChatbotBell/MakeBellActive", Params);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
     }

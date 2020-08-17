@@ -17,5 +17,12 @@ namespace SMSBroadcastHomeshop.Model
         public string ServerCode { get; set; }
     }
 
+
+    public class ListofSMSDetails
+    {
+        public string MobileNumber { get; set; }
+        public string Programcode { get; set; }
+        public string ID { get; set; }
+    }
    
 }
